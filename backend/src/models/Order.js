@@ -1,0 +1,26 @@
+const mongoose = require('mongoose');
+
+const orderItemSchema = new mongoose.Schema({
+  menuItem: { type: mongoose.Schema.Types.ObjectId, ref: 'MenuItem', required: true },
+  quantity: { type: Number, required: true },
+  price: { type: Number, required: true },
+  status: { 
+    type: String, 
+    enum: ['pending', 'in_progress', 'ready', 'served'], 
+    default: 'pending' 
+  }
+});
+
+const orderSchema = new mongoose.Schema({
+  tableNumber: { type: Number, required: true },
+  waiter: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  items: [orderItemSchema],
+  status: { 
+    type: String, 
+    enum: ['pending', 'in_kitchen', 'ready', 'served', 'billed'], 
+    default: 'pending' 
+  },
+  totalAmount: { type: Number, default: 0 }
+}, { timestamps: true });
+
+module.exports = mongoose.model('Order', orderSchema);
