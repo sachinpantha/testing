@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000/api';
+const API_BASE_URL = 'https://hotel-backend-kjd8.onrender.com';
 
 // Set up axios interceptor to include token
 axios.interceptors.request.use((config) => {
