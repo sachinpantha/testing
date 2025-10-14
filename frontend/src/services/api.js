@@ -12,7 +12,7 @@ axios.interceptors.request.use((config) => {
 });
 
 // Auth
-export const login = (credentials) => axios.post(`${API_BASE_URL}/auth/login`, credentials);
+export const login = (credentials) => axios.post(`${API_BASE_URL}/api/auth/login`, credentials);
 
 // Users
 export const getUsers = () => axios.get(`${API_BASE_URL}/users`);
