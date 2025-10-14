@@ -8,7 +8,19 @@ const app = express();
 
 // Middleware
 app.use(cors({
-    origin: ['http://localhost:3000', 'https://testing-c1yi10mus-sachin-panthas-projects.vercel.app'],
+    origin: function (origin, callback) {
+        const allowedOrigins = [
+            'http://localhost:3000',
+            /^https:\/\/.*\.vercel\.app$/
+        ];
+        if (!origin || allowedOrigins.some(allowed => 
+            typeof allowed === 'string' ? allowed === origin : allowed.test(origin)
+        )) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization']
