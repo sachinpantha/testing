@@ -14,6 +14,10 @@ app.use(express.json());
 connectDB();
 
 // Routes
+
+app.get('/', (req, res) => {
+    res.json('API is running...');
+});
 app.use('/api/auth', require('./src/routes/auth'));
 app.use('/api/users', require('./src/routes/users'));
 app.use('/api/menu', require('./src/routes/menu'));
