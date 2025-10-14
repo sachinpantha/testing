@@ -8,8 +8,8 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: ['https://your-frontend-vercel-url.vercel.app', 'http://localhost:3000'],
-  credentials: true
+    origin: ['https://hotel-frontend-sage.vercel.app', 'http://localhost:3000'],
+    credentials: true
 }));
 app.use(express.json());
 
