@@ -8,7 +8,7 @@ const app = express();
 
 // Middleware
 app.use(cors({
-    origin: ['http://localhost:3000', 'https://testing-c1yi10mus-sachin-panthas-projects.vercel.app/'],
+    origin: ['http://localhost:3000', 'https://testing-c1yi10mus-sachin-panthas-projects.vercel.app'],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization']
