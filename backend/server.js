@@ -43,5 +43,5 @@ app.use('/api/tables', require('./src/routes/tables'));
 app.use('/api/bills', require('./src/routes/bills'));
 app.use('/api/transactions', require('./src/routes/transactions'));
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
