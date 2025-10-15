@@ -110,8 +110,8 @@ const ReceptionistDashboard = () => {
                 <tr>
                   <td>${item.menuItem?.name || 'Unknown Item'}</td>
                   <td>${item.quantity}</td>
-                  <td>$${item.price?.toFixed(2)}</td>
-                  <td>$${(item.price * item.quantity)?.toFixed(2)}</td>
+                  <td>रू ${item.price?.toFixed(2)}</td>
+                  <td>रू ${(item.price * item.quantity)?.toFixed(2)}</td>
                 </tr>
               `).join('')}
             </tbody>
@@ -266,7 +266,7 @@ const ReceptionistDashboard = () => {
                         {order.items.map((item, idx) => (
                           <div key={idx} className="flex justify-between text-sm">
                             <span>{item.menuItem?.name} x{item.quantity}</span>
-                            <span>रू{(item.price * item.quantity).toFixed(2)}</span>
+                            <span>रू {(item.price * item.quantity).toFixed(2)}</span>
                           </div>
                         ))}
                       </div>
@@ -308,7 +308,7 @@ const ReceptionistDashboard = () => {
                           {generatedBill.order.items.map((item, idx) => (
                             <div key={idx} className="flex justify-between text-xs">
                               <span>{item.menuItem?.name} x{item.quantity}</span>
-                              <span>रू{(item.price * item.quantity).toFixed(2)}</span>
+                              <span>रू {(item.price * item.quantity).toFixed(2)}</span>
                             </div>
                           ))}
                         </div>
@@ -318,15 +318,15 @@ const ReceptionistDashboard = () => {
                     <div className="space-y-1 text-sm border-t pt-2">
                       <div className="flex justify-between">
                         <span>Subtotal:</span>
-                        <span>${generatedBill.subtotal?.toFixed(2)}</span>
+                        <span>रू ${generatedBill.subtotal?.toFixed(2)}</span>
                       </div>
                       <div className="flex justify-between">
                         <span>Tax:</span>
-                        <span>${generatedBill.tax?.toFixed(2)}</span>
+                        <span>रू ${generatedBill.tax?.toFixed(2)}</span>
                       </div>
                       <div className="flex justify-between font-bold">
                         <span>Total:</span>
-                        <span>${generatedBill.total?.toFixed(2)}</span>
+                        <span>रू ${generatedBill.total?.toFixed(2)}</span>
                       </div>
                     </div>
                   </div>
@@ -363,7 +363,7 @@ const ReceptionistDashboard = () => {
                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{transaction.tableNumber}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{transaction.waiter?.username}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{transaction.order?.items?.length || 0} items</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${transaction.totalAmount}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">रू ${transaction.totalAmount}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{new Date(transaction.completedAt).toLocaleString()}</td>
                       </tr>
                     ))}

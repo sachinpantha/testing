@@ -204,7 +204,7 @@ const WaiterDashboard = () => {
                   >
                     <h4 className="font-medium text-gray-900 mb-1">{item.name}</h4>
                     <p className="text-gray-600 text-sm mb-2">{item.category}</p>
-                    <p className="font-bold text-blue-600 mb-2">रू{item.price}</p>
+                    <p className="font-bold text-blue-600 mb-2">रू {item.price}</p>
                     {item.description && <p className="text-sm text-gray-600">{item.description}</p>}
                   </div>
                 ))}
@@ -223,7 +223,7 @@ const WaiterDashboard = () => {
                         <div key={item.menuItem} className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
                           <div className="flex-1 min-w-0">
                             <p className="font-medium text-gray-900 truncate">{item.name}</p>
-                            <p className="text-sm text-gray-600">रू{item.price} प्रत्येक</p>
+                            <p className="text-sm text-gray-600">रू {item.price} प्रत्येक</p>
                           </div>
                           <div className="flex items-center space-x-2 ml-4">
                             <button
@@ -246,7 +246,7 @@ const WaiterDashboard = () => {
                     
                     <div className="border-t border-gray-200 pt-4 mb-4">
                       <p className="text-lg font-bold text-gray-900">
-                        जम्मा: रू{orderItems.reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(2)}
+                        जम्मा: रू {orderItems.reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(2)}
                       </p>
                     </div>
                     
