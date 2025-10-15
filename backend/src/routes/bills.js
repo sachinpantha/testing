@@ -13,7 +13,7 @@ router.post('/', auth, async (req, res) => {
       return res.status(403).json({ message: 'Access denied' });
     }
     const { tableNumber } = req.body;
-    const orders = await Order.find({ tableNumber, status: 'served' }).populate('items.menuItem');
+    const orders = await Order.find({ tableNumber, status: { $in: ['served', 'billed'] } }).populate('items.menuItem');
     
     if (orders.length === 0) {
       return res.status(400).json({ message: 'No served orders for this table' });
@@ -69,7 +69,7 @@ router.post('/', auth, async (req, res) => {
       totalAmount: total
     });
 
-    // Update orders status only - don't make table vacant yet
+    // Update orders status only if not already billed
     await Order.updateMany({ tableNumber, status: 'served' }, { status: 'billed' });
     // Table will be marked vacant when payment is confirmed
 
