@@ -69,9 +69,9 @@ router.post('/', auth, async (req, res) => {
       totalAmount: total
     });
 
-    // Update orders and table status
+    // Update orders status only - don't make table vacant yet
     await Order.updateMany({ tableNumber, status: 'served' }, { status: 'billed' });
-    await Table.findOneAndUpdate({ tableNumber }, { status: 'vacant' });
+    // Table will be marked vacant when payment is confirmed
 
     // Return populated bill
     const populatedBill = await Bill.findById(bill._id).populate('receptionist', 'username').populate({
@@ -99,6 +99,26 @@ router.get('/:id', auth, async (req, res) => {
       }
     });
     res.json(bill);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// Mark payment as complete (Receptionist only)
+router.post('/:id/paid', auth, async (req, res) => {
+  try {
+    if (req.user.role !== 'receptionist') {
+      return res.status(403).json({ message: 'Access denied' });
+    }
+    const bill = await Bill.findById(req.params.id);
+    if (!bill) {
+      return res.status(404).json({ message: 'Bill not found' });
+    }
+    
+    // Mark table as vacant after payment confirmation
+    await Table.findOneAndUpdate({ tableNumber: bill.tableNumber }, { status: 'vacant' });
+    
+    res.json({ message: 'Payment confirmed, table is now vacant' });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

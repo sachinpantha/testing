@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { getTables, createBill, getBill, getAllTransactions, getOrdersByTable } from '../services/api';
+import { getTables, createBill, getBill, getAllTransactions, getOrdersByTable, markBillAsPaid } from '../services/api';
 
 const ReceptionistDashboard = () => {
   const { user, logout } = useAuth();
@@ -60,9 +60,22 @@ const ReceptionistDashboard = () => {
       
       setGeneratedBill(response.data);
       alert('Bill generated successfully!');
-      loadTables();
+      // Don't reload tables yet - wait for payment confirmation
     } catch (error) {
       alert('Error generating bill: ' + (error.response?.data?.message || error.message));
+    }
+  };
+
+  const markAsPaid = async () => {
+    try {
+      await markBillAsPaid(generatedBill._id);
+      alert('Payment confirmed! Table is now vacant.');
+      setSelectedTable(null);
+      setTableOrders([]);
+      setGeneratedBill(null);
+      loadTables();
+    } catch (error) {
+      alert('Error confirming payment: ' + (error.response?.data?.message || error.message));
     }
   };
 
@@ -331,12 +344,21 @@ const ReceptionistDashboard = () => {
                     </div>
                   </div>
                   
-                  <button
-                    onClick={printBill}
-                    className="w-full bg-green-600 hover:bg-green-700 text-white py-3 px-4 rounded-lg font-medium transition duration-200"
-                  >
-                    Print Bill
-                  </button>
+                  <div className="space-y-3">
+                    <button
+                      onClick={printBill}
+                      className="w-full bg-green-600 hover:bg-green-700 text-white py-3 px-4 rounded-lg font-medium transition duration-200"
+                    >
+                      Print Bill
+                    </button>
+                    
+                    <button
+                      onClick={markAsPaid}
+                      className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-lg font-medium transition duration-200"
+                    >
+                      भुक्तानी पूरा भयो (Mark as Paid)
+                    </button>
+                  </div>
                 </div>
               )}
               </div>

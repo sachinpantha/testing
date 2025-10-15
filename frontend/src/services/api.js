@@ -41,6 +41,7 @@ export const getAllOrders = () => axios.get(`${API_BASE_URL}/orders`);
 export const createBill = (billData) => axios.post(`${API_BASE_URL}/bills`, billData);
 export const getBill = (id) => axios.get(`${API_BASE_URL}/bills/${id}`);
 export const getAllBills = () => axios.get(`${API_BASE_URL}/bills`);
+export const markBillAsPaid = (billId) => axios.post(`${API_BASE_URL}/bills/${billId}/paid`);
 
 // Transactions
 export const getAllTransactions = () => axios.get(`${API_BASE_URL}/transactions`);
