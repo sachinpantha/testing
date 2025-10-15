@@ -90,14 +90,7 @@ const SuperAdminDashboard = () => {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
-        <div className="mb-4 sm:mb-6">
-          <button 
-            onClick={handleInitializeTables} 
-            className="bg-green-600 hover:bg-green-700 text-white px-3 py-2 sm:px-4 sm:py-2 rounded-lg transition duration-200 text-sm sm:text-base w-full sm:w-auto"
-          >
-            टेबलहरू सुरु गर्नुहोस्
-          </button>
-        </div>
+
 
         <div className="border-b border-gray-200 mb-4 sm:mb-6">
           <nav className="-mb-px flex space-x-4 sm:space-x-8 overflow-x-auto">
@@ -119,18 +112,18 @@ const SuperAdminDashboard = () => {
 
         <div className="bg-white rounded-lg shadow-sm border">
           {activeTab === 'users' && (
-            <div className="p-6">
+            <div className="p-4 sm:p-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-6">प्रयोगकर्ता व्यवस्थापन</h3>
-              <div className="bg-gray-50 rounded-lg p-6 mb-6">
+              <div className="bg-gray-50 rounded-lg p-4 sm:p-6 mb-6">
                 <h4 className="text-md font-medium text-gray-900 mb-4">नयाँ प्रयोगकर्ता थप्नुहोस्</h4>
-                <form onSubmit={handleCreateUser} className="flex flex-wrap gap-4">
+                <form onSubmit={handleCreateUser} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4">
                   <input
                     type="text"
                     placeholder="प्रयोगकर्ता नाम"
                     value={newUser.username}
                     onChange={(e) => setNewUser({ ...newUser, username: e.target.value })}
                     required
-                    className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                   />
                   <input
                     type="password"
@@ -138,12 +131,12 @@ const SuperAdminDashboard = () => {
                     value={newUser.password}
                     onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
                     required
-                    className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                   />
                   <select
                     value={newUser.role}
                     onChange={(e) => setNewUser({ ...newUser, role: e.target.value })}
-                    className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                   >
                     <option value="waiter">वेटर</option>
                     <option value="chef">खाना पकाउने</option>
@@ -151,7 +144,7 @@ const SuperAdminDashboard = () => {
                   </select>
                   <button 
                     type="submit" 
-                    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition duration-200"
+                    className="w-full sm:col-span-2 lg:col-span-1 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition duration-200 text-sm"
                   >
                     प्रयोगकर्ता थप्नुहोस्
                   </button>
@@ -197,24 +190,24 @@ const SuperAdminDashboard = () => {
           )}
 
           {activeTab === 'menu' && (
-            <div className="p-6">
+            <div className="p-4 sm:p-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-6">मेनु व्यवस्थापन</h3>
-              <div className="bg-gray-50 rounded-lg p-6 mb-6">
+              <div className="bg-gray-50 rounded-lg p-4 sm:p-6 mb-6">
                 <h4 className="text-md font-medium text-gray-900 mb-4">नयाँ मेनु आइटम थप्नुहोस्</h4>
-                <form onSubmit={handleCreateMenuItem} className="flex flex-wrap gap-4">
+                <form onSubmit={handleCreateMenuItem} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
                   <input
                     type="text"
                     placeholder="आइटमको नाम"
                     value={newMenuItem.name}
                     onChange={(e) => setNewMenuItem({ ...newMenuItem, name: e.target.value })}
                     required
-                    className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                   />
                   <select
                     value={newMenuItem.category}
                     onChange={(e) => setNewMenuItem({ ...newMenuItem, category: e.target.value })}
                     required
-                    className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                   >
                     <option value="">केटेगोरी छान्नुहोस्</option>
                     <option value="Veg">शाकाहारी</option>
@@ -226,11 +219,11 @@ const SuperAdminDashboard = () => {
                     value={newMenuItem.price}
                     onChange={(e) => setNewMenuItem({ ...newMenuItem, price: e.target.value })}
                     required
-                    className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                   />
                   <button 
                     type="submit" 
-                    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition duration-200"
+                    className="w-full sm:col-span-2 lg:col-span-1 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition duration-200 text-sm"
                   >
                     आइटम थप्नुहोस्
                   </button>
@@ -278,7 +271,7 @@ const SuperAdminDashboard = () => {
           )}
 
           {activeTab === 'orders' && (
-            <div className="p-6">
+            <div className="p-4 sm:p-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-6">सबै अर्डरहरू</h3>
               <div className="overflow-x-auto">
                 <table className="min-w-full divide-y divide-gray-200">
@@ -314,7 +307,7 @@ const SuperAdminDashboard = () => {
           )}
 
           {activeTab === 'bills' && (
-            <div className="p-6">
+            <div className="p-4 sm:p-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-6">सबै बिलहरू</h3>
               <div className="overflow-x-auto">
                 <table className="min-w-full divide-y divide-gray-200">
