@@ -180,96 +180,81 @@ const WaiterDashboard = () => {
               </div>
             </div>
           </div>
-      ) : (
+        ) : (
         <div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
-            <h2>Table {selectedTable.tableNumber} - Place Order</h2>
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 space-y-4 sm:space-y-0">
+            <h2 className="text-xl font-semibold text-gray-900">टेबल {selectedTable.tableNumber} - अर्डर राख्नुहोस्</h2>
             <button
               onClick={() => setSelectedTable(null)}
-              style={{ padding: '0.5rem 1rem', backgroundColor: '#6c757d', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+              className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg transition duration-200"
             >
-              Back to Tables
+              टेबलमा फर्कनुहोस्
             </button>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '2rem' }}>
-            <div>
-              <h3>Menu Items</h3>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '1rem' }}>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="lg:col-span-2">
+              <h3 className="text-lg font-medium text-gray-900 mb-4">मेनु आइटमहरू</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {menuItems.map(item => (
                   <div
                     key={item._id}
-                    style={{
-                      padding: '1rem',
-                      border: '1px solid #ddd',
-                      borderRadius: '8px',
-                      backgroundColor: 'white',
-                      cursor: 'pointer'
-                    }}
+                    className="p-4 border border-gray-200 rounded-lg bg-white cursor-pointer hover:shadow-md transition-shadow duration-200"
                     onClick={() => addItemToOrder(item)}
                   >
-                    <h4>{item.name}</h4>
-                    <p style={{ color: '#666', margin: '0.5rem 0' }}>{item.category}</p>
-                    <p style={{ fontWeight: 'bold', color: '#007bff' }}>रू{item.price}</p>
-                    {item.description && <p style={{ fontSize: '0.9rem', color: '#666' }}>{item.description}</p>}
+                    <h4 className="font-medium text-gray-900 mb-1">{item.name}</h4>
+                    <p className="text-gray-600 text-sm mb-2">{item.category}</p>
+                    <p className="font-bold text-blue-600 mb-2">रू{item.price}</p>
+                    {item.description && <p className="text-sm text-gray-600">{item.description}</p>}
                   </div>
                 ))}
               </div>
             </div>
 
-            <div>
-              <h3>Current Order</h3>
-              <div style={{ backgroundColor: 'white', padding: '1rem', borderRadius: '8px', border: '1px solid #ddd' }}>
+            <div className="lg:col-span-1">
+              <h3 className="text-lg font-medium text-gray-900 mb-4">हालको अर्डर</h3>
+              <div className="bg-white p-4 rounded-lg border border-gray-200 sticky top-4">
                 {orderItems.length === 0 ? (
-                  <p>No items added yet</p>
+                  <p className="text-gray-500 text-center py-8">कुनै आइटम थपिएको छैन</p>
                 ) : (
                   <>
-                    {orderItems.map(item => (
-                      <div key={item.menuItem} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', padding: '0.5rem', backgroundColor: '#f8f9fa', borderRadius: '4px' }}>
-                        <div>
-                          <strong>{item.name}</strong>
-                          <br />
-                          <span>रू{item.price} each</span>
+                    <div className="space-y-3 mb-4">
+                      {orderItems.map(item => (
+                        <div key={item.menuItem} className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                          <div className="flex-1 min-w-0">
+                            <p className="font-medium text-gray-900 truncate">{item.name}</p>
+                            <p className="text-sm text-gray-600">रू{item.price} प्रत्येक</p>
+                          </div>
+                          <div className="flex items-center space-x-2 ml-4">
+                            <button
+                              onClick={() => updateItemQuantity(item.menuItem, item.quantity - 1)}
+                              className="w-8 h-8 bg-red-500 hover:bg-red-600 text-white rounded-full flex items-center justify-center transition duration-200"
+                            >
+                              -
+                            </button>
+                            <span className="w-8 text-center font-medium">{item.quantity}</span>
+                            <button
+                              onClick={() => updateItemQuantity(item.menuItem, item.quantity + 1)}
+                              className="w-8 h-8 bg-green-500 hover:bg-green-600 text-white rounded-full flex items-center justify-center transition duration-200"
+                            >
+                              +
+                            </button>
+                          </div>
                         </div>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                          <button
-                            onClick={() => updateItemQuantity(item.menuItem, item.quantity - 1)}
-                            style={{ padding: '0.25rem 0.5rem', backgroundColor: '#dc3545', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
-                          >
-                            -
-                          </button>
-                          <span>{item.quantity}</span>
-                          <button
-                            onClick={() => updateItemQuantity(item.menuItem, item.quantity + 1)}
-                            style={{ padding: '0.25rem 0.5rem', backgroundColor: '#28a745', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
-                          >
-                            +
-                          </button>
-                        </div>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                     
-                    <div style={{ borderTop: '1px solid #ddd', paddingTop: '1rem', marginTop: '1rem' }}>
-                      <strong>
-                        Total: रू{orderItems.reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(2)}
-                      </strong>
+                    <div className="border-t border-gray-200 pt-4 mb-4">
+                      <p className="text-lg font-bold text-gray-900">
+                        जम्मा: रू{orderItems.reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(2)}
+                      </p>
                     </div>
                     
                     <button
                       onClick={submitOrder}
-                      style={{
-                        width: '100%',
-                        padding: '0.75rem',
-                        backgroundColor: '#007bff',
-                        color: 'white',
-                        border: 'none',
-                        borderRadius: '4px',
-                        cursor: 'pointer',
-                        marginTop: '1rem',
-                        fontSize: '1rem'
-                      }}
+                      className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-lg transition duration-200 font-medium"
                     >
-                      Submit Order
+                      अर्डर पेश गर्नुहोस्
                     </button>
                   </>
                 )}
