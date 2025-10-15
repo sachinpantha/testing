@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:3001/api';
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000/api';
 
 // Set up axios interceptor to include token
 axios.interceptors.request.use((config) => {
@@ -12,7 +12,7 @@ axios.interceptors.request.use((config) => {
 });
 
 // Auth
-export const login = (credentials) => axios.post(`${API_BASE_URL}/api/auth/login`, credentials);
+export const login = (credentials) => axios.post(`${API_BASE_URL}/auth/login`, credentials);
 
 // Users
 export const getUsers = () => axios.get(`${API_BASE_URL}/users`);

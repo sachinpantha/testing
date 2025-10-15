@@ -11,7 +11,9 @@ app.use(cors({
     origin: function (origin, callback) {
         const allowedOrigins = [
             'http://localhost:3000',
-            /^https:\/\/.*\.vercel\.app$/
+            'http://localhost:5000',
+            /^https:\/\/.*\.vercel\.app$/,
+            /^https:\/\/.*\.onrender\.com$/
         ];
         if (!origin || allowedOrigins.some(allowed => 
             typeof allowed === 'string' ? allowed === origin : allowed.test(origin)
@@ -43,5 +45,5 @@ app.use('/api/tables', require('./src/routes/tables'));
 app.use('/api/bills', require('./src/routes/bills'));
 app.use('/api/transactions', require('./src/routes/transactions'));
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
