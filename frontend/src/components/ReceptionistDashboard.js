@@ -318,15 +318,15 @@ const ReceptionistDashboard = () => {
                     <div className="space-y-1 text-sm border-t pt-2">
                       <div className="flex justify-between">
                         <span>Subtotal:</span>
-                        <span>रू ${generatedBill.subtotal?.toFixed(2)}</span>
+                        <span>रू {generatedBill.subtotal?.toFixed(2)}</span>
                       </div>
                       <div className="flex justify-between">
                         <span>Tax:</span>
-                        <span>रू ${generatedBill.tax?.toFixed(2)}</span>
+                        <span>रू {generatedBill.tax?.toFixed(2)}</span>
                       </div>
                       <div className="flex justify-between font-bold">
                         <span>Total:</span>
-                        <span>रू ${generatedBill.total?.toFixed(2)}</span>
+                        <span>रू {generatedBill.total?.toFixed(2)}</span>
                       </div>
                     </div>
                   </div>
@@ -363,7 +363,7 @@ const ReceptionistDashboard = () => {
                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{transaction.tableNumber}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{transaction.waiter?.username}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{transaction.order?.items?.length || 0} items</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">रू ${transaction.totalAmount}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">रू {transaction.totalAmount}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{new Date(transaction.completedAt).toLocaleString()}</td>
                       </tr>
                     ))}
