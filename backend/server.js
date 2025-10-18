@@ -1,10 +1,24 @@
 const express = require('express');
 const cors = require('cors');
+const http = require('http');
+const socketIo = require('socket.io');
 require('dotenv').config();
 
 const connectDB = require('./src/config/database');
 
 const app = express();
+const server = http.createServer(app);
+const io = socketIo(server, {
+    cors: {
+        origin: [
+            'http://localhost:3000',
+            'http://localhost:5000',
+            /^https:\/\/.*\.vercel\.app$/,
+            /^https:\/\/.*\.onrender\.com$/
+        ],
+        methods: ['GET', 'POST']
+    }
+});
 
 // Middleware
 app.use(cors({
@@ -32,6 +46,18 @@ app.use(express.json());
 // Database connection
 connectDB();
 
+// Socket.IO connection
+io.on('connection', (socket) => {
+    console.log('User connected:', socket.id);
+    
+    socket.on('disconnect', () => {
+        console.log('User disconnected:', socket.id);
+    });
+});
+
+// Make io available to routes
+app.set('io', io);
+
 // Routes
 
 app.get('/', (req, res) => {
@@ -46,4 +72,4 @@ app.use('/api/bills', require('./src/routes/bills'));
 app.use('/api/transactions', require('./src/routes/transactions'));
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+server.listen(PORT, () => console.log(`Server running on port ${PORT}`));

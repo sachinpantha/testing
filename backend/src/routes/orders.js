@@ -12,7 +12,17 @@ router.post('/', auth, async (req, res) => {
     }
     const order = new Order({ ...req.body, waiter: req.user.userId, status: 'in_kitchen' });
     await order.save();
-    await Table.findOneAndUpdate({ tableNumber: req.body.tableNumber }, { status: 'occupied' });
+    const updatedTable = await Table.findOneAndUpdate(
+      { tableNumber: req.body.tableNumber }, 
+      { status: 'occupied' },
+      { new: true }
+    );
+    
+    // Emit real-time updates
+    const io = req.app.get('io');
+    io.emit('tableUpdated', updatedTable);
+    io.emit('newOrder', order);
+    
     res.status(201).json(order);
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -40,9 +50,20 @@ router.put('/:id/status', auth, async (req, res) => {
     }
     const order = await Order.findByIdAndUpdate(req.params.id, { status: req.body.status }, { new: true });
     
+    // Emit real-time order update
+    const io = req.app.get('io');
+    io.emit('orderUpdated', order);
+    
     // Update table status when order is served
     if (req.body.status === 'served') {
-      await Table.findOneAndUpdate({ tableNumber: order.tableNumber }, { status: 'served' });
+      const updatedTable = await Table.findOneAndUpdate(
+        { tableNumber: order.tableNumber }, 
+        { status: 'served' },
+        { new: true }
+      );
+      
+      // Emit real-time table update
+      io.emit('tableUpdated', updatedTable);
     }
     
     res.json(order);

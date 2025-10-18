@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { getTables, getMenuItems, createOrder } from '../services/api';
+import socketService from '../services/socket';
 
 const WaiterDashboard = () => {
   const { user, logout } = useAuth();
@@ -12,9 +13,25 @@ const WaiterDashboard = () => {
   useEffect(() => {
     loadTables();
     loadMenuItems();
-    // Auto-refresh tables every 30 seconds
-    const interval = setInterval(loadTables, 30000);
-    return () => clearInterval(interval);
+    
+    // Connect to socket for real-time updates
+    const socket = socketService.connect();
+    
+    // Listen for table updates
+    const handleTableUpdate = (updatedTable) => {
+      setTables(prevTables => 
+        prevTables.map(table => 
+          table.tableNumber === updatedTable.tableNumber ? updatedTable : table
+        )
+      );
+    };
+    
+    socketService.on('tableUpdated', handleTableUpdate);
+    
+    return () => {
+      socketService.off('tableUpdated', handleTableUpdate);
+      socketService.disconnect();
+    };
   }, []);
 
   const loadTables = async () => {

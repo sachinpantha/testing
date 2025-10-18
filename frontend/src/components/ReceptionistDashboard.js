@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { getTables, createBill, getBill, getAllTransactions, getOrdersByTable, markBillAsPaid } from '../services/api';
+import socketService from '../services/socket';
 
 const ReceptionistDashboard = () => {
   const { user, logout } = useAuth();
@@ -14,6 +15,24 @@ const ReceptionistDashboard = () => {
   useEffect(() => {
     if (activeTab === 'tables') {
       loadTables();
+      
+      // Connect to socket for real-time updates
+      const socket = socketService.connect();
+      
+      // Listen for table updates
+      const handleTableUpdate = (updatedTable) => {
+        setTables(prevTables => 
+          prevTables.map(table => 
+            table.tableNumber === updatedTable.tableNumber ? updatedTable : table
+          )
+        );
+      };
+      
+      socketService.on('tableUpdated', handleTableUpdate);
+      
+      return () => {
+        socketService.off('tableUpdated', handleTableUpdate);
+      };
     } else if (activeTab === 'history') {
       loadTransactions();
     }

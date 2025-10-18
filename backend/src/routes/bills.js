@@ -116,7 +116,15 @@ router.post('/:id/paid', auth, async (req, res) => {
     }
     
     // Mark table as vacant after payment confirmation
-    await Table.findOneAndUpdate({ tableNumber: bill.tableNumber }, { status: 'vacant' });
+    const updatedTable = await Table.findOneAndUpdate(
+      { tableNumber: bill.tableNumber }, 
+      { status: 'vacant' },
+      { new: true }
+    );
+    
+    // Emit real-time update
+    const io = req.app.get('io');
+    io.emit('tableUpdated', updatedTable);
     
     res.json({ message: 'Payment confirmed, table is now vacant' });
   } catch (error) {

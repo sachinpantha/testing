@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { getKitchenOrders, updateOrderStatus } from '../services/api';
+import socketService from '../services/socket';
 
 const ChefDashboard = () => {
   const { user, logout } = useAuth();
@@ -8,8 +9,23 @@ const ChefDashboard = () => {
 
   useEffect(() => {
     loadOrders();
-    const interval = setInterval(loadOrders, 30000); // Refresh every 30 seconds
-    return () => clearInterval(interval);
+    
+    // Connect to socket for real-time updates
+    const socket = socketService.connect();
+    
+    // Listen for new orders and order updates
+    const handleOrderUpdate = () => {
+      loadOrders();
+    };
+    
+    socketService.on('newOrder', handleOrderUpdate);
+    socketService.on('orderUpdated', handleOrderUpdate);
+    
+    return () => {
+      socketService.off('newOrder', handleOrderUpdate);
+      socketService.off('orderUpdated', handleOrderUpdate);
+      socketService.disconnect();
+    };
   }, []);
 
   const loadOrders = async () => {
