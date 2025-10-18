@@ -30,8 +30,19 @@ const ReceptionistDashboard = () => {
       
       socketService.on('tableUpdated', handleTableUpdate);
       
+      // Handle mobile app visibility changes
+      const handleVisibilityChange = () => {
+        if (!document.hidden) {
+          socketService.connect();
+          loadTables();
+        }
+      };
+      
+      document.addEventListener('visibilitychange', handleVisibilityChange);
+      
       return () => {
         socketService.off('tableUpdated', handleTableUpdate);
+        document.removeEventListener('visibilitychange', handleVisibilityChange);
       };
     } else if (activeTab === 'history') {
       loadTransactions();

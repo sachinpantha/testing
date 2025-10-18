@@ -21,9 +21,20 @@ const ChefDashboard = () => {
     socketService.on('newOrder', handleOrderUpdate);
     socketService.on('orderUpdated', handleOrderUpdate);
     
+    // Handle mobile app visibility changes
+    const handleVisibilityChange = () => {
+      if (!document.hidden) {
+        socketService.connect();
+        loadOrders();
+      }
+    };
+    
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    
     return () => {
       socketService.off('newOrder', handleOrderUpdate);
       socketService.off('orderUpdated', handleOrderUpdate);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
       socketService.disconnect();
     };
   }, []);

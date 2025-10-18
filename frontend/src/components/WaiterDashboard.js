@@ -29,8 +29,20 @@ const WaiterDashboard = () => {
     
     socketService.on('tableUpdated', handleTableUpdate);
     
+    // Handle mobile app visibility changes
+    const handleVisibilityChange = () => {
+      if (!document.hidden) {
+        // App became visible, reconnect socket and refresh data
+        socketService.connect();
+        loadTables();
+      }
+    };
+    
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    
     return () => {
       socketService.off('tableUpdated', handleTableUpdate);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
       socketService.disconnect();
     };
   }, []);

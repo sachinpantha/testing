@@ -15,7 +15,11 @@ class SocketService {
         upgrade: true,
         rememberUpgrade: false,
         timeout: 20000,
-        forceNew: true
+        forceNew: true,
+        reconnection: true,
+        reconnectionDelay: 1000,
+        reconnectionAttempts: 5,
+        maxReconnectionAttempts: 5
       });
       
       this.socket.on('connect', () => {
@@ -28,6 +32,14 @@ class SocketService {
       
       this.socket.on('connect_error', (error) => {
         console.error('Socket.IO connection error:', error);
+      });
+      
+      this.socket.on('reconnect', (attemptNumber) => {
+        console.log('Socket.IO reconnected after', attemptNumber, 'attempts');
+      });
+      
+      this.socket.on('reconnect_error', (error) => {
+        console.error('Socket.IO reconnection error:', error);
       });
     }
     return this.socket;
