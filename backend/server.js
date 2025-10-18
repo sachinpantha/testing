@@ -13,10 +13,12 @@ const io = socketIo(server, {
         origin: [
             'http://localhost:3000',
             'http://localhost:5000',
+            'https://hotel-frontend-nine-psi.vercel.app',
             /^https:\/\/.*\.vercel\.app$/,
             /^https:\/\/.*\.onrender\.com$/
         ],
-        methods: ['GET', 'POST']
+        methods: ['GET', 'POST'],
+        credentials: true
     }
 });
 
