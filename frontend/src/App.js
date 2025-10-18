@@ -5,6 +5,7 @@ import SuperAdminDashboard from './components/SuperAdminDashboard';
 import WaiterDashboard from './components/WaiterDashboard';
 import ChefDashboard from './components/ChefDashboard';
 import ReceptionistDashboard from './components/ReceptionistDashboard';
+import SocketTest from './components/SocketTest';
 import { AuthProvider, useAuth } from './context/AuthContext';
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
@@ -26,6 +27,7 @@ function App() {
     <AuthProvider>
       <Router>
         <div className="App">
+          <SocketTest />
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/super-admin" element={

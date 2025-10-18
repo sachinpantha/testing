@@ -9,7 +9,26 @@ class SocketService {
 
   connect() {
     if (!this.socket) {
-      this.socket = io(SOCKET_URL);
+      console.log('Connecting to Socket.IO server:', SOCKET_URL);
+      this.socket = io(SOCKET_URL, {
+        transports: ['polling', 'websocket'],
+        upgrade: true,
+        rememberUpgrade: false,
+        timeout: 20000,
+        forceNew: true
+      });
+      
+      this.socket.on('connect', () => {
+        console.log('Socket.IO connected:', this.socket.id);
+      });
+      
+      this.socket.on('disconnect', () => {
+        console.log('Socket.IO disconnected');
+      });
+      
+      this.socket.on('connect_error', (error) => {
+        console.error('Socket.IO connection error:', error);
+      });
     }
     return this.socket;
   }

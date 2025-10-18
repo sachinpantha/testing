@@ -19,6 +19,7 @@ const WaiterDashboard = () => {
     
     // Listen for table updates
     const handleTableUpdate = (updatedTable) => {
+      console.log('Received tableUpdated event:', updatedTable);
       setTables(prevTables => 
         prevTables.map(table => 
           table.tableNumber === updatedTable.tableNumber ? updatedTable : table

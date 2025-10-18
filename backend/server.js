@@ -10,17 +10,14 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server, {
     cors: {
-        origin: [
-            'http://localhost:3000',
-            'http://localhost:5000',
-            'https://hotel-frontend-nine-psi.vercel.app',
-            /^https:\/\/.*\.vercel\.app$/,
-            /^https:\/\/.*\.onrender\.com$/
-        ],
+        origin: true,
         methods: ['GET', 'POST'],
         credentials: true
-    }
+    },
+    allowEIO3: true
 });
+
+console.log('Socket.IO server initialized');
 
 // Middleware
 app.use(cors({
@@ -54,6 +51,10 @@ io.on('connection', (socket) => {
     
     socket.on('disconnect', () => {
         console.log('User disconnected:', socket.id);
+    });
+    
+    socket.on('error', (error) => {
+        console.error('Socket error:', error);
     });
 });
 

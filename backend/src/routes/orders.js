@@ -20,7 +20,9 @@ router.post('/', auth, async (req, res) => {
     
     // Emit real-time updates
     const io = req.app.get('io');
+    console.log('Emitting tableUpdated for table:', updatedTable.tableNumber);
     io.emit('tableUpdated', updatedTable);
+    console.log('Emitting newOrder for table:', order.tableNumber);
     io.emit('newOrder', order);
     
     res.status(201).json(order);
@@ -52,6 +54,7 @@ router.put('/:id/status', auth, async (req, res) => {
     
     // Emit real-time order update
     const io = req.app.get('io');
+    console.log('Emitting orderUpdated for order:', order._id);
     io.emit('orderUpdated', order);
     
     // Update table status when order is served
@@ -63,6 +66,7 @@ router.put('/:id/status', auth, async (req, res) => {
       );
       
       // Emit real-time table update
+      console.log('Emitting tableUpdated for served table:', updatedTable.tableNumber);
       io.emit('tableUpdated', updatedTable);
     }
     

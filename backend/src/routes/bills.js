@@ -124,6 +124,7 @@ router.post('/:id/paid', auth, async (req, res) => {
     
     // Emit real-time update
     const io = req.app.get('io');
+    console.log('Emitting tableUpdated for paid table:', updatedTable.tableNumber);
     io.emit('tableUpdated', updatedTable);
     
     res.json({ message: 'Payment confirmed, table is now vacant' });
