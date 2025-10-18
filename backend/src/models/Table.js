@@ -10,4 +10,8 @@ const tableSchema = new mongoose.Schema({
   currentOrder: { type: mongoose.Schema.Types.ObjectId, ref: 'Order' }
 }, { timestamps: true });
 
+// Add indexes for performance
+tableSchema.index({ tableNumber: 1 });
+tableSchema.index({ status: 1 });
+
 module.exports = mongoose.model('Table', tableSchema);

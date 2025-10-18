@@ -10,4 +10,9 @@ const billSchema = new mongoose.Schema({
   isPaid: { type: Boolean, default: false }
 }, { timestamps: true });
 
+// Add indexes for performance
+billSchema.index({ tableNumber: 1 });
+billSchema.index({ createdAt: -1 });
+billSchema.index({ isPaid: 1 });
+
 module.exports = mongoose.model('Bill', billSchema);

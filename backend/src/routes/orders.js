@@ -37,7 +37,14 @@ router.get('/kitchen', auth, async (req, res) => {
     if (req.user.role !== 'chef') {
       return res.status(403).json({ message: 'Access denied' });
     }
-    const orders = await Order.find({ status: { $in: ['pending', 'in_kitchen', 'ready'] } }).populate('items.menuItem waiter');
+    const orders = await Order.find(
+      { status: { $in: ['pending', 'in_kitchen', 'ready'] } },
+      'tableNumber status items createdAt'
+    )
+    .populate('items.menuItem', 'name')
+    .populate('waiter', 'username')
+    .sort({ createdAt: 1 })
+    .lean();
     res.json(orders);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -85,7 +92,10 @@ router.get('/table/:tableNumber', auth, async (req, res) => {
     const orders = await Order.find({ 
       tableNumber: req.params.tableNumber, 
       status: 'served' 
-    }).populate('items.menuItem waiter');
+    }, 'tableNumber items createdAt waiter')
+    .populate('items.menuItem', 'name price')
+    .populate('waiter', 'username')
+    .lean();
     res.json(orders);
   } catch (error) {
     res.status(500).json({ message: error.message });
